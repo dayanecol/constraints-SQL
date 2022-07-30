@@ -1,0 +1,68 @@
+CREATE TABLE customers(
+	id SERIAL NOT NULL PRIMARY KEY,
+	"fullName" VARCHAR(50) NOT NULL,
+	cpf VARCHAR(11) NOT NULL UNIQUE,
+	email TEXT NOT NULL UNIQUE,
+	password TEXT NOT NULL
+);
+
+CREATE TABLE states(
+	id SERIAL NOT NULL PRIMARY KEY,
+	name TEXT NOT NULL
+);
+
+CREATE TABLE cities(
+	id SERIAL NOT NULL PRIMARY KEY,
+	name TEXT NOT NULL,
+	"stateId" INTEGER NOT NULL REFERENCES states(id)
+);
+
+
+CREATE TABLE customerAddresses(
+	id SERIAL NOT NULL PRIMARY KEY,
+	"customerId" INTEGER NOT NULL REFERENCES customers(id),
+	street TEXT NOT NULL,
+	"number" INTEGER NOT NULL,
+	complement TEXT,
+	"postalCode" NUMERIC NOT NULL,
+	"cityId" INTEGER NOT NULL REFERENCES cities(id)
+);
+
+CREATE TABLE customerPhones(
+	id SERIAL NOT NULL PRIMARY KEY,
+	"customerId" INTEGER NOT NULL REFERENCES customers(id),
+	number NUMERIC NOT NULL,
+	type TEXT NOT NULL
+);
+
+CREATE TABLE bankAccount(
+	id SERIAL NOT NULL PRIMARY KEY,
+	"customerId" INTEGER NOT NULL REFERENCES customers(id),
+	"accountNumber" INTEGER NOT NULL,
+	agency INTEGER NOT NULL,
+	"openDate" TIMESTAMP NOT NULL,
+	"closeDate" TIMESTAMP NOT NULL
+);
+
+CREATE TABLE trabsactions(
+	id SERIAL NOT NULL PRIMARY KEY,
+	"bankAccountId" INTEGER NOT NULL REFERENCES bankAccount(id),
+	amount INTEGER NOT NULL,
+	type TEXT NOT NULL,
+	time TIMESTAMP NOT NULL DEFAULT NOW(),
+	description TEXT,
+	cancelled BOOLEAN NOT NULL
+	
+);
+
+CREATE TABLE creditCards(
+	id SERIAL NOT NULL PRIMARY KEY,
+	"bankAccountId" INTEGER NOT NULL REFERENCES bankAccount(id),
+	name TEXT NOT NULL,
+	"number" INTEGER NOT NULL,
+	"securityCode" TEXT NOT NULL UNIQUE,
+	"expirationMonth" INTEGER NOT NULL,
+	"expirationYear" INTEGER NOT NULL,
+	password TEXT NOT NULL,
+	"limit" INTEGER NOT NULL
+);
