@@ -1,3 +1,5 @@
+CREATE DATABASE drivenbank;
+
 CREATE TABLE customers(
 	id SERIAL NOT NULL PRIMARY KEY,
 	"fullName" VARCHAR(50) NOT NULL,
