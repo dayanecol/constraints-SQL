@@ -46,7 +46,7 @@ CREATE TABLE bankAccount(
 	"closeDate" TIMESTAMP NOT NULL
 );
 
-CREATE TABLE trabsactions(
+CREATE TABLE transactions(
 	id SERIAL NOT NULL PRIMARY KEY,
 	"bankAccountId" INTEGER NOT NULL REFERENCES bankAccount(id),
 	amount INTEGER NOT NULL,
